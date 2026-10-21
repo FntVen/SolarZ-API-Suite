@@ -7,20 +7,17 @@ import (
 	"strings"
 )
 
-// I Hate It reformats my code after save and i cant find a way to turn it off
 func main() {
-	var INIT_Date string = ""
-	var END_Date string = ""
-	var Limit string = ""
-	var FID string = ""
-	var _ScopeStage bool = false
-	//var StageID string = ""
-	var Link string = "https://api.crm.solarz.com.br/api/v2/open-api/deal?startDate=SDate&endDate=TodayDate&page=0&size=Quantidade&sort=%5B%22string%22%5D&pipelineId=ID"
-	strings.ReplaceAll(Link, "SDate", INIT_Date)
-	strings.ReplaceAll(Link, "TodayDate", END_Date)
-	strings.ReplaceAll(Link, "Quantidade", Limit)
-	strings.ReplaceAll(Link, "ID", FID)
-	HttpResult, Error := http.Get("")
+	_ClientCompany := false
+	var ClientID string = ""
+	var Link string = "https://api.crm.solarz.com.br/api/v2/open-api/client/TYPE/ID"
+	strings.ReplaceAll(Link, "ID", ClientID)
+	if _ClientCompany {
+		strings.ReplaceAll(Link, "TYPE", "organizations")
+	}else{
+		strings.ReplaceAll(Link, "TYPE", "persons")
+	}
+	HttpResult, Error := http.Get(Link)
 	if Error != nil {
 		fmt.Println("Error of type ", Error)
 	}
@@ -33,5 +30,6 @@ func main() {
 		fmt.Println(string(Body))
 	} else {
 		//Implement splitting lines and filtering
+		BodyLines := strings.Split(Body,",")
 	}
 }
